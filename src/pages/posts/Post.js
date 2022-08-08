@@ -19,7 +19,7 @@ const Post = (props) => {
     image,
     updated_at,
     postPage,
-    setPost,
+    setPosts,
   } = props;
 
   const currentUser = useCurrentUser();
@@ -28,7 +28,7 @@ const Post = (props) => {
   const handleLike = async () => {
     try {
       const { data } = await axiosRes.post("/likes/", { post: id });
-      setPost((prevPosts) => ({
+      setPosts((prevPosts) => ({
         ...prevPosts,
         results: prevPosts.results.map((post) => {
           return post.id === id
@@ -43,8 +43,8 @@ const Post = (props) => {
 
   const handleUnlike = async () => {
     try {
-      const { data } = await axiosRes.delete(`/likes/${like_id}`);
-      setPost((prevPosts) => ({
+      await axiosRes.delete(`/likes/${like_id}/`);
+      setPosts((prevPosts) => ({
         ...prevPosts,
         results: prevPosts.results.map((post) => {
           return post.id === id
@@ -61,7 +61,7 @@ const Post = (props) => {
     <Card className={styles.Post}>
       <Card.Body>
         <Media className="align-items-center justify-content-between">
-          <Link to={`/profile/${profile_id}`}>
+          <Link to={`/profiles/${profile_id}`}>
             <Avatar src={profile_image} height={55} />
             {owner}
           </Link>
@@ -96,7 +96,7 @@ const Post = (props) => {
           ) : (
             <OverlayTrigger
               placement="top"
-              overlay={<Tooltip>Log in to like posts</Tooltip>}
+              overlay={<Tooltip>Log in to like posts!</Tooltip>}
             >
               <i className="far fa-heart"></i>
             </OverlayTrigger>
