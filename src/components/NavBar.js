@@ -1,5 +1,8 @@
 import React from "react";
-import { Container, Navbar, Nav } from "react-bootstrap";
+
+import Navbar from "react-bootstrap/Navbar";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
 import logo from "../assets/logo.png";
 import styles from "../styles/NavBar.module.css";
 import { NavLink } from "react-router-dom";
@@ -10,6 +13,7 @@ import {
 import Avatar from "./Avatar";
 import axios from "axios";
 import useClickOutsideToggle from "../hooks/useClickOutsideToggle";
+import { removeTokenTimestamp } from "../utils/utils";
 
 const NavBar = () => {
   const currentUser = useCurrentUser();
@@ -20,8 +24,9 @@ const NavBar = () => {
     try {
       await axios.post("dj-rest-auth/logout/");
       setCurrentUser(null);
+      removeTokenTimestamp();
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
   const addPostIcon = (
@@ -65,7 +70,7 @@ const NavBar = () => {
       <NavLink
         className={styles.NavLink}
         activeClassName={styles.Active}
-        to="signin"
+        to="/signin"
       >
         <i className="fas fa-sign-in-alt"></i>Sign in
       </NavLink>
